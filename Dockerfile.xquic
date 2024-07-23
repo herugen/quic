@@ -3,7 +3,7 @@ ARG tag=latest
 ARG repo=https://github.com/alibaba/xquic.git
 ARG version=v1.8.0
 
-FROM ${distro}:${tag} as builder
+FROM ${distro}:${tag}
 ARG repo
 ARG version
 ARG TARGETPLATFORM # automatically passed by docker
@@ -43,8 +43,3 @@ RUN cmake -DGCOV=on -DCMAKE_BUILD_TYPE=Debug -DXQC_ENABLE_TESTING=1 -DXQC_SUPPOR
 RUN make -j
 
 
-FROM ${distro}:${tag}
-RUN apt-get update -y && \
-    DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y \
-    libevent-dev
