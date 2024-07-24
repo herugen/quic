@@ -49,6 +49,9 @@ COPY --from=builder /xquic/build/libxquic.so /usr/local/lib/
 COPY --from=builder /xquic/build/libxquic-static.a /usr/local/lib/
 RUN ldconfig
 
+# copy headers
+COPY --from=builder /xquic/include/xquic /usr/local/include/xquic
+
 # copy demo binary
 COPY --from=builder /xquic/build/demo/demo_client /usr/bin/
 COPY --from=builder /xquic/build/demo/demo_server /usr/bin/
