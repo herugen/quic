@@ -47,6 +47,8 @@ FROM ${distro}:${tag}
 # copy library
 COPY --from=builder /xquic/build/libxquic.so /usr/local/lib/
 COPY --from=builder /xquic/build/libxquic-static.a /usr/local/lib/
+COPY --from=builder /xquic/third_party/boringssl/build/ssl/libssl.a /usr/local/lib/
+COPY --from=builder /xquic/third_party/boringssl/build/crypto/libcrypto.a /usr/local/lib/
 RUN ldconfig
 
 # copy headers
