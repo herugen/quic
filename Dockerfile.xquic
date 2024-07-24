@@ -39,7 +39,7 @@ WORKDIR /xquic
 RUN git submodule update --init --recursive
 RUN mkdir -p /xquic/build
 WORKDIR /xquic/build
-RUN cmake -DGCOV=on -DCMAKE_BUILD_TYPE=Debug -DXQC_ENABLE_TESTING=1 -DXQC_SUPPORT_SENDMMSG_BUILD=1 -DXQC_ENABLE_EVENT_LOG=1 -DXQC_ENABLE_BBR2=1 -DXQC_ENABLE_RENO=1 -DSSL_TYPE=${SSL_TYPE_STR} -DSSL_PATH=${SSL_PATH_STR} ..
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DXQC_SUPPORT_SENDMMSG_BUILD=1 -DXQC_ENABLE_EVENT_LOG=1 -DXQC_ENABLE_BBR2=1 -DXQC_ENABLE_RENO=1 -DSSL_TYPE=${SSL_TYPE_STR} -DSSL_PATH=${SSL_PATH_STR} ..
 RUN make -j
 
 FROM ${distro}:${tag}
@@ -55,10 +55,3 @@ COPY --from=builder /xquic/include/xquic /usr/local/include/xquic
 # copy demo binary
 COPY --from=builder /xquic/build/demo/demo_client /usr/bin/
 COPY --from=builder /xquic/build/demo/demo_server /usr/bin/
- 
-# copy test binary
-COPY --from=builder /xquic/build/tests/test_client /usr/bin/
-COPY --from=builder /xquic/build/tests/test_server /usr/bin/
-
-# copy test scripts
-COPY --from=builder /xquic/scripts/case_test.sh /usr/bin/
